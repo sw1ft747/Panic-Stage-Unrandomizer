@@ -1,0 +1,5 @@
+Panic Stage Time:
+2 ticks * framerate + RandomFloat(1.0, 2.0) [StartPanicEvent] + RandomFloat(2.0, 4.0) [SpawnMegaMob] <= 3.066666 - 6.066666
+
+Pause Stage Time:
+2 ticks * framerate + RandomFloat(5.0, 7.0) [UpdatePanicEvents] + RandomFloat(2.0, 4.0) [SpawnMegaMob] <= 7.066666 - 11.066666
