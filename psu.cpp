@@ -42,8 +42,8 @@ public:
 	virtual void			OnEdictFreed(const edict_t *edict);
 
 private:
-	ConVar *m_ConVar_PanicWavePauseMin;
-	ConVar *m_ConVar_PanicWavePauseMax;
+	ConVar *m_PanicWavePauseMinConVar;
+	ConVar *m_PanicWavePauseMaxConVar;
 
 	CPatcher *m_StartPanicEventPatch;
 	CPatcher *m_SpawnMegaMobPatch;
@@ -56,8 +56,8 @@ EXPOSE_SINGLE_INTERFACE_GLOBALVAR(CPanicStageUnrandomizer, IServerPluginCallback
 // Constructor
 //---------------------------------------------------------------------------------------------------
 CPanicStageUnrandomizer::CPanicStageUnrandomizer() :
-	m_ConVar_PanicWavePauseMin(nullptr),
-	m_ConVar_PanicWavePauseMax(nullptr),
+	m_PanicWavePauseMinConVar(nullptr),
+	m_PanicWavePauseMaxConVar(nullptr),
 	m_StartPanicEventPatch(nullptr),
 	m_SpawnMegaMobPatch(nullptr)
 {
@@ -81,16 +81,16 @@ bool CPanicStageUnrandomizer::Load(CreateInterfaceFn interfaceFactory, CreateInt
 
 	DevMsg("[PSU] Found CVar interface: %8X\n", g_Cvars);
 
-	m_ConVar_PanicWavePauseMin = g_Cvars->FindVar("director_panic_wave_pause_min");
-	m_ConVar_PanicWavePauseMax = g_Cvars->FindVar("director_panic_wave_pause_max");
+	m_PanicWavePauseMinConVar = g_Cvars->FindVar("director_panic_wave_pause_min");
+	m_PanicWavePauseMaxConVar = g_Cvars->FindVar("director_panic_wave_pause_max");
 
-	if (m_ConVar_PanicWavePauseMin == nullptr)
+	if (m_PanicWavePauseMinConVar == nullptr)
 	{
 		Warning("[PSU] Failed to get ConVar 'director_panic_wave_pause_min'\n");
 		return false;
 	}
 
-	if (m_ConVar_PanicWavePauseMax == nullptr)
+	if (m_PanicWavePauseMaxConVar == nullptr)
 	{
 		Warning("[PSU] Failed to get ConVar 'director_panic_wave_pause_max'\n");
 		return false;
@@ -153,8 +153,8 @@ bool CPanicStageUnrandomizer::Load(CreateInterfaceFn interfaceFactory, CreateInt
 	m_SpawnMegaMobPatch = new CPatcher((BYTE *)pSpawnMegaMob + 2, (BYTE *)pSpawnMegaMob + 19, 4);
 
 	// Set the value of ConVar 'director_panic_wave_pause_max' the same as in ConVar 'director_panic_wave_pause_min'
-	m_ConVar_PanicWavePauseMin->SetValue(5);
-	m_ConVar_PanicWavePauseMax->SetValue(5);
+	m_PanicWavePauseMinConVar->SetValue(5);
+	m_PanicWavePauseMaxConVar->SetValue(5);
 
 	m_StartPanicEventPatch->Patch();
 	m_SpawnMegaMobPatch->Patch();
@@ -169,8 +169,8 @@ bool CPanicStageUnrandomizer::Load(CreateInterfaceFn interfaceFactory, CreateInt
 //---------------------------------------------------------------------------------------------------
 void CPanicStageUnrandomizer::Unload(void)
 {
-	m_ConVar_PanicWavePauseMin->SetValue(5);
-	m_ConVar_PanicWavePauseMax->SetValue(7);
+	m_PanicWavePauseMinConVar->SetValue(5);
+	m_PanicWavePauseMaxConVar->SetValue(7);
 
 	m_StartPanicEventPatch->Unpatch();
 	m_SpawnMegaMobPatch->Unpatch();
@@ -186,8 +186,8 @@ void CPanicStageUnrandomizer::Unload(void)
 //---------------------------------------------------------------------------------------------------
 void CPanicStageUnrandomizer::Pause(void)
 {
-	m_ConVar_PanicWavePauseMin->SetValue(5);
-	m_ConVar_PanicWavePauseMax->SetValue(7);
+	m_PanicWavePauseMinConVar->SetValue(5);
+	m_PanicWavePauseMaxConVar->SetValue(7);
 
 	m_StartPanicEventPatch->Unpatch();
 	m_SpawnMegaMobPatch->Unpatch();
@@ -198,8 +198,8 @@ void CPanicStageUnrandomizer::Pause(void)
 //---------------------------------------------------------------------------------------------------
 void CPanicStageUnrandomizer::UnPause(void)
 {
-	m_ConVar_PanicWavePauseMin->SetValue(5);
-	m_ConVar_PanicWavePauseMax->SetValue(5);
+	m_PanicWavePauseMinConVar->SetValue(5);
+	m_PanicWavePauseMaxConVar->SetValue(5);
 
 	m_StartPanicEventPatch->Patch();
 	m_SpawnMegaMobPatch->Patch();
