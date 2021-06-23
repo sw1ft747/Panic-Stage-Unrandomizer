@@ -8,5 +8,3 @@ The plugin uses signatures for finding functions, supports at least version **2.
 *ToDo:* check on other versions for compatibility
 
 Thanks a lot to [ProdigySim](https://github.com/ProdigySim) for [l4d2_structs](https://github.com/ProdigySim/l4d2_structs)
-
-Developed for using in ***TAS***
